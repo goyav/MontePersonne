@@ -28,7 +28,7 @@ public class Elevator {
     private static Elevator elevator2;
 
     public static Elevator getElevator1() {
-        return new Elevator(ElevatorFloor.FLOOR_0.getFloorNumber());
+        return new Elevator(15);
     }
 
     private Elevator(int floorCount) {
@@ -38,13 +38,6 @@ public class Elevator {
         this.executor = Executors.newSingleThreadExecutor();
     }
 
-
-    public static void main(String[] args) {
-        Elevator elevator = new Elevator(10);
-        elevator.callElevator(ElevatorFloor.FLOOR_3, ElevatorFloor.FLOOR_5);
-        elevator.callElevator(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_8);
-        // Add more calls to test asynchronous handling
-    }
 
     private void moveElevator(ElevatorFloor fromFloor, ElevatorFloor toFloor) {
         int direction = (toFloor.getFloorNumber() > fromFloor.getFloorNumber()) ? 1 : -1;
@@ -77,38 +70,68 @@ public class Elevator {
                         .<Call>comparingInt(call -> call.fromFloor().getFloorNumber())
                         .thenComparingInt(call -> call.toFloor().getFloorNumber()))
                 .toList();
+
+    }
+
+
+    public Boolean highestFloor(Integer currentFloor, LinkedBlockingQueue<Call> linkedBlockingQueue){
+
+        int highest = Integer.MIN_VALUE; // Initialize with minimum possible int value
+        for (Call call : linkedBlockingQueue) {
+            highest = Math.max(highest, call.toFloor().getFloorNumber()); // Update highest if current element is greater
+        }
+        return currentFloor==highest;
+
+    }
+
+
+    public Boolean lowestFloor(Integer currentFloor, LinkedBlockingQueue<Call> linkedBlockingQueue){
+
+        int lowest = Integer.MAX_VALUE; // Initialize with maximum possible int value
+        for (Call call : linkedBlockingQueue) {
+            lowest = Math.min(lowest, call.toFloor().getFloorNumber()); // Update lowest if current element is lower
+        }
+        return currentFloor==lowest;
+
     }
 
 
     public LinkedBlockingQueue<Call> testMethod(){
         LinkedBlockingQueue<Call> callArrayList = new LinkedBlockingQueue<>();
 
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_5));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_3, ElevatorFloor.FLOOR_8));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_2));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_4, ElevatorFloor.FLOOR_9));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_6));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_8, ElevatorFloor.FLOOR_3));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_5, ElevatorFloor.FLOOR_1));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_4));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_6, ElevatorFloor.FLOOR_10));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_7));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_10, ElevatorFloor.FLOOR_5));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_8));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_4, ElevatorFloor.FLOOR_10));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_3));
-        callArrayList.add(new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_2));
+        Elevator elevator = Elevator.getElevator1();
+
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_5))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_3, ElevatorFloor.FLOOR_8))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_2))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_4, ElevatorFloor.FLOOR_9))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_6))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_8, ElevatorFloor.FLOOR_3))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_5, ElevatorFloor.FLOOR_1))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_4))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_6,ElevatorFloor.FLOOR_10))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_7))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_10,ElevatorFloor.FLOOR_5))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_8))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_4,ElevatorFloor.FLOOR_10))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_3))));
+        callArrayList.add(elevator.callElevator((new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_2))));
+
+
+
 
         System.out.println("called");
         sortCalls(callArrayList);
         System.out.println("sorted");
+
        return callArrayList;
     }
 
-    public void callElevator(ElevatorFloor fromFloor, ElevatorFloor toFloor) {
-        validateCall(fromFloor.getFloorNumber(), toFloor.getFloorNumber());
-        callQueue.add(new Call(fromFloor, toFloor));
+    public Call callElevator(Call call) {
+        validateCall(call.fromFloor.getFloorNumber(), call.toFloor.getFloorNumber());
+        callQueue.add(new Call(call.fromFloor, call.toFloor));
         processCalls();
+        return call;
     }
 
     private void validateCall(int fromFloor, int toFloor) {
@@ -118,6 +141,8 @@ public class Elevator {
     }
 
     private void processCalls() {
+        System.out.println("processing calls");
+
         executor.submit(() -> {
             while (!callQueue.isEmpty()) {
                 Call call = null; // Wait for next call or timeout
