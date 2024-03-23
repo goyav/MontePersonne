@@ -61,6 +61,8 @@ public class Elevator {
         }
     }
 
+//TODO sort idea for calls ======> check order of call first then check if other call is in intervall
+
 
     /**
      * finds the highest or lowest call from initial call in queue in order to know when to revert direction
@@ -76,6 +78,7 @@ public class Elevator {
                         .thenComparingInt(call -> call.toFloor().getFloorNumber()))
                 .toList();
     }
+
 
     public LinkedBlockingQueue<Call> testMethod(){
         LinkedBlockingQueue<Call> callArrayList = new LinkedBlockingQueue<>();
