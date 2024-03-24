@@ -39,6 +39,11 @@ public class Elevator {
     }
 
 
+    /**
+     * Method to move elevator
+     * @param fromFloor
+     * @param toFloor
+     */
     private void moveElevator(ElevatorFloor fromFloor, ElevatorFloor toFloor) {
         int direction = (toFloor.getFloorNumber() > fromFloor.getFloorNumber()) ? 1 : -1;
         while (currentFloor != toFloor.getFloorNumber()) {
