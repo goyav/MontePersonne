@@ -21,7 +21,7 @@ public class Elevator {
     private final int floorCount;
     private final BlockingQueue<Call> callQueue;
     private final ExecutorService executor;
-    ArrayList<Call> calls = new ArrayList();
+    ArrayList calls = new ArrayList();
     private int currentFloor;
     //TODO two elevators, but only using one. Implement the use of two in future version
     private static Elevator elevator1;
@@ -44,19 +44,22 @@ public class Elevator {
      * @param fromFloor
      * @param toFloor
      */
-    private void moveElevator(ElevatorFloor fromFloor, ElevatorFloor toFloor) {
+    private int moveElevator(ElevatorFloor fromFloor, ElevatorFloor toFloor) {
         int direction = (toFloor.getFloorNumber() > fromFloor.getFloorNumber()) ? 1 : -1;
         while (currentFloor != toFloor.getFloorNumber()) {
             currentFloor += direction;
             // Simulate movement time (replace with actual movement logic)
             try {
-                Thread.sleep(1000); // 1 second for demonstration
+                Thread.sleep(300); // 1 second for demonstration
+                System.out.println("call is made or what");
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 Thread.currentThread().interrupt();
             }
             Logger.getLogger("Elevator arrived at floor: " + currentFloor);
+            System.out.println(currentFloor);
         }
+        return currentFloor;
     }
 
 //TODO sort idea for calls ======> check order of call first then check if other call is in intervall
@@ -75,7 +78,6 @@ public class Elevator {
                         .<Call>comparingInt(call -> call.fromFloor().getFloorNumber())
                         .thenComparingInt(call -> call.toFloor().getFloorNumber()))
                 .toList();
-
     }
 
 
@@ -101,7 +103,7 @@ public class Elevator {
     }
 
 
-    public LinkedBlockingQueue<Call> testMethod(){
+    public LinkedBlockingQueue<Call> testMethod() throws InterruptedException {
         LinkedBlockingQueue<Call> callArrayList = new LinkedBlockingQueue<>();
 
         Elevator elevator = Elevator.getElevator1();
@@ -132,10 +134,15 @@ public class Elevator {
        return callArrayList;
     }
 
-    public Call callElevator(Call call) {
+    public Call callElevator(Call call) throws InterruptedException {
         validateCall(call.fromFloor.getFloorNumber(), call.toFloor.getFloorNumber());
         callQueue.add(new Call(call.fromFloor, call.toFloor));
-        processCalls();
+        try {
+            processCalls();
+            Thread.sleep(300);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return call;
     }
 
@@ -157,7 +164,7 @@ public class Elevator {
                     throw new RuntimeException(e);
                 }
                 if (call != null) {
-                    moveElevator(call.fromFloor(), call.toFloor());
+                        moveElevator(call.fromFloor(), call.toFloor());
                     Logger.getLogger("Elevator at floor: " + currentFloor);
                 }
             }
