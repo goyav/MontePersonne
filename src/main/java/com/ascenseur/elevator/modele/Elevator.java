@@ -50,7 +50,7 @@ public class Elevator {
             currentFloor += direction;
             // Simulate movement time (replace with actual movement logic)
             try {
-                Thread.sleep(300); // 1 second for demonstration
+                Thread.sleep(300); //TODO parametrer et decider si pertinent
                 System.out.println("call is made or what");
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -139,7 +139,7 @@ public class Elevator {
         callQueue.add(new Call(call.fromFloor, call.toFloor));
         try {
             processCalls();
-            Thread.sleep(300);
+            Thread.sleep(300); //TODO parametrer et decider si pertinent
         }catch (Exception e){
             System.out.println(e);
         }
