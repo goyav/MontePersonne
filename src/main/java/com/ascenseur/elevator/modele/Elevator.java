@@ -113,24 +113,26 @@ public class Elevator {
 
         Elevator elevator = Elevator.getElevator1();
 
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_5))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_3, ElevatorFloor.FLOOR_8))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_2))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_4, ElevatorFloor.FLOOR_9))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_6))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_8, ElevatorFloor.FLOOR_3))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_5, ElevatorFloor.FLOOR_1))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_4))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_6,ElevatorFloor.FLOOR_10))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_7))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_10,ElevatorFloor.FLOOR_5))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_8))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_4,ElevatorFloor.FLOOR_10))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_3))));
-        callArrayList.add(elevator.operateElevator((new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_2))));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_5)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_3, ElevatorFloor.FLOOR_8)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_2)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_4, ElevatorFloor.FLOOR_9)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_6)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_8, ElevatorFloor.FLOOR_3)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_5, ElevatorFloor.FLOOR_1)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_4)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_6,ElevatorFloor.FLOOR_10)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_2, ElevatorFloor.FLOOR_7)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_10,ElevatorFloor.FLOOR_5)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_1, ElevatorFloor.FLOOR_8)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_4,ElevatorFloor.FLOOR_10)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_7, ElevatorFloor.FLOOR_3)));
+        callArrayList.add((new Call(ElevatorFloor.FLOOR_9, ElevatorFloor.FLOOR_2)));
 
-        sortCalls(callArrayList);
+        List<Call> firstSortByFromFloor = sortCalls(callArrayList);
         System.out.println("sorted");
+
+        
 
        return callArrayList;
     }
